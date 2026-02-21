@@ -147,3 +147,96 @@ module "ohio-paris-peering" {
     Environment = "Test"
   }
 }
+
+module "ohio-ec2" {
+  source = "terraform-aws-modules/ec2-instance/aws"
+
+  name          = "ohio-ec2"
+  ami           = data.aws_ami.amazon_linux_2023.id
+  instance_type = "t3.micro"
+  subnet_id     = module.ohio-vpc.private_subnets
+
+  create_security_group = true
+  security_group_name   = "ohio-ec2-sg"
+  security_group_vpc_id = module.ohio-vpc.vpc_id
+
+  security_group_ingress_rules = {
+    allow_ping = {
+      protocol    = "icmp"
+      from_port   = -1
+      to_port     = -1
+      cidr_blocks = [module.tokyo-ec2.private_ip, module.paris-ec2.private_ip]
+    }
+  }
+
+  security_group_egress_rules = {
+    all = {
+      protocol    = "-1"
+      from_port   = 0
+      to_port     = 0
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  }
+}
+
+module "tokyo-ec2" {
+  source = "terraform-aws-modules/ec2-instance/aws"
+
+  name          = "tokyo-ec2"
+  ami           = data.aws_ami.amazon_linux_2023.id
+  instance_type = "t3.micro"
+  subnet_id     = module.tokyo-vpc.private_subnets
+
+  create_security_group = true
+  security_group_name   = "tokyo-ec2-sg"
+  security_group_vpc_id = module.tokyo-vpc.vpc_id
+
+  security_group_ingress_rules = {
+    allow_ping = {
+      protocol    = "icmp"
+      from_port   = -1
+      to_port     = -1
+      cidr_blocks = [module.ohio-ec2.private_ip, module.paris-ec2.private_ip]
+    }
+  }
+
+  security_group_egress_rules = {
+    all = {
+      protocol    = "-1"
+      from_port   = 0
+      to_port     = 0
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  }
+}
+
+module "paris-ec2" {
+  source = "terraform-aws-modules/ec2-instance/aws"
+
+  name          = "paris-ec2"
+  ami           = data.aws_ami.amazon_linux_2023.id
+  instance_type = "t3.micro"
+  subnet_id     = module.paris-vpc.private_subnets
+
+  create_security_group = true
+  security_group_name   = "paris-ec2-sg"
+  security_group_vpc_id = module.paris-vpc.vpc_id
+
+  security_group_ingress_rules = {
+    allow_ping = {
+      protocol    = "icmp"
+      from_port   = -1
+      to_port     = -1
+      cidr_blocks = [module.ohio-ec2.private_ip, module.tokyo-ec2.private_ip]
+    }
+  }
+
+  security_group_egress_rules = {
+    all = {
+      protocol    = "-1"
+      from_port   = 0
+      to_port     = 0
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  }
+}
