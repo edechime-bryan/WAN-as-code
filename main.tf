@@ -90,8 +90,11 @@ module "ohio-tokyo-peering" {
     aws.peer = aws.tokyo
   }
 
-  this_vpc_id = var.ohio_vpc_id
-  peer_vpc_id = var.tokyo_vpc_id
+  this_vpc_id  = module.ohio-vpc.vpc_id
+  peer_vpc_id  = module.tokyo-vpc.vpc_id
+  this_rts_ids = concat(module.ohio-vpc.public_route_table_ids, module.ohio-vpc.private_route_table_ids)
+  peer_rts_ids = concat(module.tokyo-vpc.public_route_table_ids, module.tokyo-vpc.private_route_table_ids)
+
 
   auto_accept_peering = true
 
