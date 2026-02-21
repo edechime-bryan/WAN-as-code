@@ -148,11 +148,77 @@ module "ohio-paris-peering" {
   }
 }
 
+data "aws_ami" "ohio-ami" {
+  provider    = aws.ohio
+  most_recent = true
+
+  owners = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-*-x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "tokyo-ami" {
+  provider    = aws.tokyo
+  most_recent = true
+
+  owners = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-*-x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "paris-ami" {
+  provider    = aws.paris
+  most_recent = true
+
+  owners = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-*-x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 module "ohio-ec2" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
   name          = "ohio-ec2"
-  ami           = data.aws_ami.amazon_linux_2023.id
+  ami           = data.aws_ami.ohio-ami.id
   instance_type = "t3.micro"
   subnet_id     = module.ohio-vpc.private_subnets
 
@@ -183,7 +249,7 @@ module "tokyo-ec2" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
   name          = "tokyo-ec2"
-  ami           = data.aws_ami.amazon_linux_2023.id
+  ami           = data.aws_ami.tokyo-ami.id
   instance_type = "t3.micro"
   subnet_id     = module.tokyo-vpc.private_subnets
 
@@ -214,7 +280,7 @@ module "paris-ec2" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
   name          = "paris-ec2"
-  ami           = data.aws_ami.amazon_linux_2023.id
+  ami           = data.aws_ami.paris-ami.id
   instance_type = "t3.micro"
   subnet_id     = module.paris-vpc.private_subnets
 
