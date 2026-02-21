@@ -220,27 +220,34 @@ module "ohio-ec2" {
   name          = "ohio-ec2"
   ami           = data.aws_ami.ohio-ami.id
   instance_type = "t3.micro"
-  subnet_id     = module.ohio-vpc.private_subnets
+  subnet_id     = module.ohio-vpc.private_subnets[0]
 
   create_security_group = true
   security_group_name   = "ohio-ec2-sg"
   security_group_vpc_id = module.ohio-vpc.vpc_id
 
   security_group_ingress_rules = {
-    allow_ping = {
-      protocol    = "icmp"
+    tokyo = {
+      ip_protocol = "icmp"
       from_port   = -1
       to_port     = -1
-      cidr_blocks = [module.tokyo-ec2.private_ip, module.paris-ec2.private_ip]
+      cidr_ipv4   = "${module.tokyo-ec2.private_ip}/32"
+    }
+
+    paris = {
+      ip_protocol = "icmp"
+      from_port   = -1
+      to_port     = -1
+      cidr_ipv4   = "${module.paris-ec2.private_ip}/32"
     }
   }
 
   security_group_egress_rules = {
     all = {
-      protocol    = "-1"
+      ip_protocol = "-1"
       from_port   = 0
       to_port     = 0
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_ipv4   = "0.0.0.0/0"
     }
   }
 }
@@ -251,27 +258,34 @@ module "tokyo-ec2" {
   name          = "tokyo-ec2"
   ami           = data.aws_ami.tokyo-ami.id
   instance_type = "t3.micro"
-  subnet_id     = module.tokyo-vpc.private_subnets
+  subnet_id     = module.tokyo-vpc.private_subnets[0]
 
   create_security_group = true
   security_group_name   = "tokyo-ec2-sg"
   security_group_vpc_id = module.tokyo-vpc.vpc_id
 
   security_group_ingress_rules = {
-    allow_ping = {
-      protocol    = "icmp"
+    ohio = {
+      ip_protocol = "icmp"
       from_port   = -1
       to_port     = -1
-      cidr_blocks = [module.ohio-ec2.private_ip, module.paris-ec2.private_ip]
+      cidr_ipv4   = "${module.ohio-ec2.private_ip}/32"
+    }
+
+    paris = {
+      ip_protocol = "icmp"
+      from_port   = -1
+      to_port     = -1
+      cidr_ipv4   = "${module.paris-ec2.private_ip}/32"
     }
   }
 
   security_group_egress_rules = {
     all = {
-      protocol    = "-1"
+      ip_protocol = "-1"
       from_port   = 0
       to_port     = 0
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_ipv4   = "0.0.0.0/0"
     }
   }
 }
@@ -282,27 +296,34 @@ module "paris-ec2" {
   name          = "paris-ec2"
   ami           = data.aws_ami.paris-ami.id
   instance_type = "t3.micro"
-  subnet_id     = module.paris-vpc.private_subnets
+  subnet_id     = module.paris-vpc.private_subnets[0]
 
   create_security_group = true
   security_group_name   = "paris-ec2-sg"
   security_group_vpc_id = module.paris-vpc.vpc_id
 
   security_group_ingress_rules = {
-    allow_ping = {
-      protocol    = "icmp"
+    ohio = {
+      ip_protocol = "icmp"
       from_port   = -1
       to_port     = -1
-      cidr_blocks = [module.ohio-ec2.private_ip, module.tokyo-ec2.private_ip]
+      cidr_ipv4   = "${module.ohio-ec2.private_ip}/32"
+    }
+
+    tokyo = {
+      ip_protocol = "icmp"
+      from_port   = -1
+      to_port     = -1
+      cidr_ipv4   = "${module.tokyo-ec2.private_ip}/32"
     }
   }
 
   security_group_egress_rules = {
     all = {
-      protocol    = "-1"
+      ip_protocol = "-1"
       from_port   = 0
       to_port     = 0
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_ipv4   = "0.0.0.0/0"
     }
   }
 }
