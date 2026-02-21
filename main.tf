@@ -103,3 +103,47 @@ module "ohio-tokyo-peering" {
     Environment = "Test"
   }
 }
+
+module "tokyo-paris-peering" {
+  source = "grem11n/vpc-peering/aws"
+
+  providers = {
+    aws.this = aws.tokyo
+    aws.peer = aws.paris
+  }
+
+  this_vpc_id  = module.tokyo-vpc.vpc_id
+  peer_vpc_id  = module.paris-vpc.vpc_id
+  this_rts_ids = concat(module.tokyo-vpc.public_route_table_ids, module.tokyo-vpc.private_route_table_ids)
+  peer_rts_ids = concat(module.paris-vpc.public_route_table_ids, module.paris-vpc.private_route_table_ids)
+
+
+  auto_accept_peering = true
+
+  tags = {
+    Name        = "tokyo-paris-peering"
+    Environment = "Test"
+  }
+}
+
+module "ohio-paris-peering" {
+  source = "grem11n/vpc-peering/aws"
+
+  providers = {
+    aws.this = aws.ohio
+    aws.peer = aws.paris
+  }
+
+  this_vpc_id  = module.ohio-vpc.vpc_id
+  peer_vpc_id  = module.paris-vpc.vpc_id
+  this_rts_ids = concat(module.ohio-vpc.public_route_table_ids, module.ohio-vpc.private_route_table_ids)
+  peer_rts_ids = concat(module.paris-vpc.public_route_table_ids, module.paris-vpc.private_route_table_ids)
+
+
+  auto_accept_peering = true
+
+  tags = {
+    Name        = "ohio-paris-peering"
+    Environment = "Test"
+  }
+}
