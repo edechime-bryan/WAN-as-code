@@ -119,7 +119,19 @@
         "ssm:GetParametersByPath"
       ],
       "Resource": "arn:aws:ssm:*:*:parameter/aws/service/ami-amazon-linux-latest/*"
-    }
+    },
 
+    {
+      "Sid": "ElasticIPAndNaclManagement",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:AllocateAddress",
+        "ec2:ReleaseAddress",
+        "ec2:CreateNetworkAclEntry",
+        "ec2:DeleteNetworkAclEntry",
+        "ec2:ReplaceNetworkAclEntry"
+      ],
+      "Resource": "*"
+    }
   ]
 }
