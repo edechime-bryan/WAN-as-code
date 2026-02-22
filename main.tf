@@ -28,6 +28,10 @@ provider "aws" {
 module "ohio-vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
+  providers = {
+    aws = aws.ohio
+  }
+
   name = "ohio-vpc"
   cidr = "10.11.53.0/24"
 
@@ -47,6 +51,10 @@ module "ohio-vpc" {
 module "tokyo-vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
+  providers = {
+    aws = aws.tokyo
+  }
+
   name = "tokyo-vpc"
   cidr = "192.168.16.0/24"
 
@@ -65,6 +73,10 @@ module "tokyo-vpc" {
 
 module "paris-vpc" {
   source = "terraform-aws-modules/vpc/aws"
+
+  providers = {
+    aws = aws.paris
+  }
 
   name = "paris-vpc"
   cidr = "172.21.0.0/16"
