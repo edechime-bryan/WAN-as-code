@@ -100,6 +100,11 @@ module "paris-vpc" {
 module "ohio-tokyo-peering" {
   source = "grem11n/vpc-peering/aws"
 
+  depends_on = [
+    module.ohio-vpc,
+    module.tokyo-vpc
+  ]
+
   providers = {
     aws.this = aws.ohio
     aws.peer = aws.tokyo
@@ -122,6 +127,11 @@ module "ohio-tokyo-peering" {
 module "tokyo-paris-peering" {
   source = "grem11n/vpc-peering/aws"
 
+  depends_on = [
+    module.tokyo-vpc,
+    module.paris-vpc
+  ]
+
   providers = {
     aws.this = aws.tokyo
     aws.peer = aws.paris
@@ -143,6 +153,11 @@ module "tokyo-paris-peering" {
 
 module "ohio-paris-peering" {
   source = "grem11n/vpc-peering/aws"
+
+  depends_on = [
+    module.ohio-vpc,
+    module.paris-vpc
+  ]
 
   providers = {
     aws.this = aws.ohio
@@ -232,6 +247,10 @@ data "aws_ami" "paris-ami" {
 module "ohio-ec2" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
+  providers = {
+    aws = aws.ohio
+  }
+
   name          = "ohio-ec2"
   ami           = data.aws_ami.ohio-ami.id
   instance_type = "t3.micro"
@@ -270,6 +289,10 @@ module "ohio-ec2" {
 module "tokyo-ec2" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
+  providers = {
+    aws = aws.tokyo
+  }
+
   name          = "tokyo-ec2"
   ami           = data.aws_ami.tokyo-ami.id
   instance_type = "t3.micro"
@@ -307,6 +330,10 @@ module "tokyo-ec2" {
 
 module "paris-ec2" {
   source = "terraform-aws-modules/ec2-instance/aws"
+
+  providers = {
+    aws = aws.paris
+  }
 
   name          = "paris-ec2"
   ami           = data.aws_ami.paris-ami.id
