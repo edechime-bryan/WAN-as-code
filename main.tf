@@ -36,8 +36,8 @@ module "ohio-vpc" {
   cidr = "10.11.53.0/24"
 
   azs             = ["us-east-2a"]
-  private_subnets = ["10.0.1.0/26"]
-  public_subnets  = ["10.0.101.128/26"]
+  private_subnets = ["10.11.53.0/26"]
+  public_subnets  = ["10.11.53.128/26"]
 
   enable_nat_gateway = true
   single_nat_gateway = true
