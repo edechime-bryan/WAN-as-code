@@ -252,6 +252,12 @@ module "ohio-ec2" {
   instance_type = "t3.micro"
   subnet_id     = module.ohio-vpc.private_subnets[0]
 
+  create_iam_instance_profile = true
+  iam_role_description        = "IAM role for EC2 instance"
+  iam_role_policies = {
+    AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  }
+
   create_security_group = true
   security_group_name   = "ohio-ec2-sg"
   security_group_vpc_id = module.ohio-vpc.vpc_id
@@ -275,8 +281,6 @@ module "ohio-ec2" {
   security_group_egress_rules = {
     all = {
       ip_protocol = "-1"
-      from_port   = 0
-      to_port     = 0
       cidr_ipv4   = "0.0.0.0/0"
     }
   }
@@ -293,6 +297,12 @@ module "tokyo-ec2" {
   ami           = data.aws_ami.tokyo-ami.id
   instance_type = "t3.micro"
   subnet_id     = module.tokyo-vpc.private_subnets[0]
+
+  create_iam_instance_profile = true
+  iam_role_description        = "IAM role for EC2 instance"
+  iam_role_policies = {
+    AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  }
 
   create_security_group = true
   security_group_name   = "tokyo-ec2-sg"
@@ -317,8 +327,6 @@ module "tokyo-ec2" {
   security_group_egress_rules = {
     all = {
       ip_protocol = "-1"
-      from_port   = 0
-      to_port     = 0
       cidr_ipv4   = "0.0.0.0/0"
     }
   }
@@ -335,6 +343,13 @@ module "paris-ec2" {
   ami           = data.aws_ami.paris-ami.id
   instance_type = "t3.micro"
   subnet_id     = module.paris-vpc.private_subnets[0]
+
+  create_iam_instance_profile = true
+  iam_role_description        = "IAM role for EC2 instance"
+  iam_role_policies = {
+    AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  }
+
 
   create_security_group = true
   security_group_name   = "paris-ec2-sg"
@@ -359,8 +374,6 @@ module "paris-ec2" {
   security_group_egress_rules = {
     all = {
       ip_protocol = "-1"
-      from_port   = 0
-      to_port     = 0
       cidr_ipv4   = "0.0.0.0/0"
     }
   }
