@@ -182,7 +182,7 @@ data "aws_ami" "ohio-ami" {
 
   filter {
     name   = "name"
-    values = ["al2023-ami-*-x86_64"]
+    values = ["al2023-ami-2023.10.*-kernel-6.1-x86_64"]
   }
 
   filter {
@@ -204,7 +204,7 @@ data "aws_ami" "tokyo-ami" {
 
   filter {
     name   = "name"
-    values = ["al2023-ami-*-x86_64"]
+    values = ["al2023-ami-2023.10.*-kernel-6.1-x86_64"]
   }
 
   filter {
@@ -226,7 +226,7 @@ data "aws_ami" "paris-ami" {
 
   filter {
     name   = "name"
-    values = ["al2023-ami-*-x86_64"]
+    values = ["al2023-ami-2023.10.*-kernel-6.1-x86_64"]
   }
 
   filter {
