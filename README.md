@@ -121,6 +121,13 @@ From the Paris EC2 instance, pinged Ohio and Tokyo private IPs.
 
 ---
 
+## Modules Used
+- VPC Creation: https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest
+- VPC Peering: https://registry.terraform.io/modules/grem11n/vpc-peering/aws/latest
+- EC2-Instance Creation: https://registry.terraform.io/modules/terraform-aws-modules/ec2-instance/aws/latest
+
+---
+
 ## Notes
 - VPC peering is **not transitive**. For a network of 7+ VPCs, a **Transit Gateway** would be a better solution.
 
