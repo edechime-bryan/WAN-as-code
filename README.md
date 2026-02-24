@@ -22,99 +22,99 @@ A visual representation of the inter-continental VPC setup and peering connectio
 ## Screenshots
 
 ### PIC 1
-![PIC 1](images/PIC 1.png)  
+![PIC1](images/PIC1.png)  
 Navigated to the AWS dashboard and clicked the IAM section.
 
 ### PIC 2
-![PIC 2](images/PIC 2.png)  
+![PIC2](images/PIC2.png)  
 Selected **Create IAM User**.
 
 ### PIC 3
-![PIC 3](images/PIC 3.png)  
+![PIC3](images/PIC3.png)  
 Named the IAM user `terraform-user` and unselected access to the AWS Management Console, since the user will interact only through the CLI and Terraform.
 
 ### PIC 4
-![PIC 4](images/PIC 4.png)  
+![PIC4](images/PIC4.png)  
 IAM user created successfully.
 
 ### PIC 5
-![PIC 5](images/PIC 5.png)  
+![PIC5](images/PIC5.png)  
 Created a custom IAM policy called `VPCpeering` with only the necessary permissions to carry out this Terraform project, following the least privilege principle.
 
 ### PIC 6
-![PIC 6](images/PIC 6.png)  
+![PIC6](images/PIC6.png)  
 Detailed view of the permissions in the `VPCpeering` policy.
 
 ### PIC 7
-![PIC 7](images/PIC 7.png)  
+![PIC7](images/PIC7.png)  
 Created a new Terraform group `terraform-group` and attached both the IAM user and the custom policy.
 
 ### PIC 8
-![PIC 8](images/PIC 8.png)  
+![PIC8](images/PIC8.png)  
 Generated an access key for the IAM user.
 
 ### PIC 9
-![PIC 9](images/PIC 9.png)  
+![PIC9](images/PIC9.png)  
 Configured AWS CLI on my Linux machine using the IAM credentials. The default AWS CLI user is now the Terraform IAM user.
 
 ### PIC 10
-![PIC 10](images/PIC 10.png)  
+![PIC10](images/PIC10.png)  
 Navigated to my Terraform directory and created `main.tf`. Defined the Terraform block and provider blocks for three regions: `us-east-2`, `ap-northeast-1`, and `eu-west-3`. Ran `terraform init` to install the AWS provider.
 
 ### PIC 11
-![PIC 11](images/PIC 11.png)  
+![PIC11](images/PIC11.png)  
 Imported and initialized a VPC creation module from the Terraform Registry to create the Ohio VPC and sub-resources (subnets, AZs, NAT gateway, route table).
 
 ### PIC 12
-![PIC 12](images/PIC 12.png)  
+![PIC12](images/PIC12.png)  
 Replicated the module for the Tokyo and Paris VPCs with their respective parameters.
 
 ### PIC 13
-![PIC 13](images/PIC 13.png)  
+![PIC13](images/PIC13.png)  
 Created a VPC peering connection between Ohio and Tokyo VPCs.
 
 ### PIC 14
-![PIC 14](images/PIC 14.png)  
+![PIC14](images/PIC14.png)  
 Created a VPC peering connection between Tokyo and Paris VPCs.
 
 ### PIC 15
-![PIC 15](images/PIC 15.png)  
+![PIC15](images/PIC15.png)  
 Created a VPC peering connection between Ohio and Paris VPCs.
 
 ### PIC 16
-![PIC 16](images/PIC 16.png)  
+![PIC16](images/PIC16.png)  
 Used a module to create EC2 instances and security groups in Ohio VPC, allowing ICMP (ping) from Tokyo and Paris VPCs.
 
 ### PIC 17
-![PIC 17](images/PIC 17.png)  
+![PIC17](images/PIC17.png)  
 Created EC2 instances and security groups in Tokyo and Paris VPCs with inbound rules allowing ping from the other EC2 instances.
 
 ### PIC 17B
-![PIC 17B](images/PIC 17B.png)  
+![PIC17B](images/PIC17B.png)  
 Added SSM access in the EC2 module for private instances with no IP and no SSH key, since Instance Connect is not possible.
 
 ### PIC 18
-![PIC 18](images/PIC 18.png)  
+![PIC18](images/PIC18.png)  
 Ran `terraform fmt`, `terraform init`, and `terraform validate` to fix any errors and ensure all required providers are installed.
 
 ### PIC 19
-![PIC 19](images/PIC 19.png)  
+![PIC19](images/PIC19.png)  
 Ran `terraform plan` to preview the resources that would be created.
 
 ### PIC 20
-![PIC 20](images/PIC 20.png)  
+![PIC20](images/PIC20.png)  
 Applied the configuration using `terraform apply`. The Wide Area Network of VPCs is now deployed.
 
 ### PIC 21
-![PIC 21](images/PIC 21.png)  
+![PIC21](images/PIC21.png)  
 From the Ohio EC2 instance in `us-east-2`, pinged the private IPs of the Tokyo and Paris EC2 instances.
 
 ### PIC 22
-![PIC 22](images/PIC 22.png)  
+![PIC22](images/PIC22.png)  
 From the Tokyo EC2 instance, pinged Ohio and Paris private IPs.
 
 ### PIC 23
-![PIC 23](images/PIC 23.png)  
+![PIC23](images/PIC23.png)  
 From the Paris EC2 instance, pinged Ohio and Tokyo private IPs.
 
 **Confirmation:** All VPCs are properly peered and connected. Despite being in separate networks, they communicate securely over the AWS backbone without using the public internet.
